@@ -5,22 +5,26 @@ def create_database():
     
     cursor = conn.cursor()
     
-    # Users
+    # Создание таблицы Users
     cursor.execute('''
     CREATE TABLE "Users" (
-        UserID INTEGER PRIMARY KEY,
+        UserID INTEGER PRIMARY KEY AUTOINCREMENT,
         TelegramUserID INTEGER UNIQUE,
+        UserName TEXT,
         UserInfo TEXT,
-        UserNick TEXT
+        UserNick TEXT UNIQUE
     )
     ''')
     
-    # Pairs
+    # Создание таблицы Pairs
     cursor.execute('''
     CREATE TABLE "Pairs" (
         PairID INTEGER PRIMARY KEY AUTOINCREMENT,
-        UserOne INTEGER,
-        UserTwo INTEGER
+        GiverUserID INTEGER,
+        ReceiverUserID INTEGER,
+        FOREIGN KEY (GiverUserID) REFERENCES Users(UserID),
+        FOREIGN KEY (ReceiverUserID) REFERENCES Users(UserID),
+        CHECK (GiverUserID != ReceiverUserID)
     )
     ''')
     
