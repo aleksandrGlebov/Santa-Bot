@@ -12,7 +12,8 @@ def create_database():
         TelegramUserID INTEGER UNIQUE,
         UserName TEXT,
         UserInfo TEXT,
-        UserNick TEXT UNIQUE
+        UserNick TEXT UNIQUE,
+        Role TEXT DEFAULT 'member'
     )
     ''')
     
