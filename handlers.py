@@ -1,29 +1,37 @@
 import json
 import logging
-from telegram import Update, ReplyKeyboardMarkup
+import data.database_helpers as db
+from telegram import Update, ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import CallbackContext, ConversationHandler
 
+# Logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+# Open assests
 with open("assets/texts/texts.json", "r", encoding="utf-8") as file:
     bot_texts = json.load(file)
 
+# Const for states
 START = range(1)
 
 def start(update: Update, context: CallbackContext) -> int:
-    context.user_data['telegramUserID'] = update.message.from_user.id
+    logger.info("start called")
 
     keyboard = [['🚩Rules', '🎉Rooms'],
                 ['🤵Profile', '👬Pairs']]
-
     reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True, one_time_keyboard=False)
 
     update.message.reply_text(bot_texts['start_message']['ru'], reply_markup=reply_markup)
+    update.message.reply_text(bot_texts['start_message']['en'])
+
+    select_language(update, context)
 
     return START
 
-def menu_buttons(update: Update, context: CallbackContext) -> int:
+def menu_buttons(update: Update, context: CallbackContext):
+    logger.info("menu_buttons")
+
     text = update.message.text
 
     if text == "🚩Rules":
@@ -34,7 +42,61 @@ def menu_buttons(update: Update, context: CallbackContext) -> int:
         return open_profile(update, context)
     elif text == "👬Pairs":
         return open_pairs(update, context)
-    
+
+def select_language(update: Update, context: CallbackContext) -> int:
+    logger.info("select_language called")
+
+    keyboard = [
+        [InlineKeyboardButton("🇷🇺Русский", callback_data='русский')],
+        [InlineKeyboardButton("🇬🇧English", callback_data='english')]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+
+    update.message.reply_text("Для начала выберем язык бота:\nFirst, let's select the bot language:", reply_markup=reply_markup)
+
+    return START
+
+def button_language(update: Update, context: CallbackContext) -> int:
+    logger.info("button_language called")
+
+    query = update.callback_query
+    language = query.data
+    telegramUserID = query.from_user.id
+
+    context.user_data['language'] = language
+    context.user_data['telegramUserID'] = telegramUserID
+
+    try:
+        user = db.read_user(telegramUserID)
+        
+        if user is None:
+            create_anonym_user(context.user_data, update)
+            
+            if language == "русский":
+                query.edit_message_text(bot_texts['selected_language']['ru'])
+            elif language == "english":
+                query.edit_message_text(bot_texts['selected_language']['en'])
+        else:
+            language = user[5]
+            
+            if language == "русский":
+                query.edit_message_text(bot_texts['existing_language']['ru'])
+            elif language == "english":
+                query.edit_message_text(bot_texts['existing_language']['en'])
+
+    except Exception as e:
+        logger.error(f"Error: {e}")
+
+    return START
+
+def create_anonym_user(user_data, update: Update):
+    logger.info("create_anonym_user called")
+
+    try:
+        db.create_user(user_data)
+    except Exception as e:
+        logger.error(f"Error: {e}")
+
 def rules(update, context):
     update.message.reply_text(bot_texts['rules']['ru'])
 

@@ -4,6 +4,7 @@ from telegram.ext import (
     MessageHandler,
     Filters,
     ConversationHandler,
+    CallbackQueryHandler
 )
 import json
 from pathlib import Path
@@ -12,6 +13,7 @@ from handlers import (
     START,
     start,
     menu_buttons,
+    button_language,
     cancel
 )
 
@@ -27,11 +29,14 @@ def main():
     dp = updater.dispatcher
 
     start_handler = ConversationHandler(
-    entry_points=[CommandHandler('start', start)],
-    states={
-        START: [MessageHandler(Filters.text & ~Filters.command, menu_buttons)]
-    },
-    fallbacks=[CommandHandler('cancel', cancel)]
+        entry_points = [CommandHandler('start', start)],
+        states = {
+            START: [
+                MessageHandler(Filters.text & ~Filters.command, menu_buttons),
+                CallbackQueryHandler(button_language, pattern='^(русский|english)$')
+                ]
+        },
+        fallbacks = [CommandHandler('cancel', cancel)]
     )
 
     dp.add_handler(start_handler)

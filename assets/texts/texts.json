@@ -5,8 +5,13 @@
     },
 
     "selected_language": {
-        "ru": "Вы выбрали русский, чтобы изменить выбор нажмите - /select_language",
-        "en": "You have selected English, to change the selection press - /select_language"
+        "ru": "Вы выбрали русский, чтобы изменить выбор нажмите - /change_language",
+        "en": "You have selected English, to change the selection press - /change_language"
+    },
+
+    "existing_language": {
+        "ru": "Вы уже выбрали русский ранее, чтобы изменить выбор нажмите - /change_language",
+        "en": "You have already selected English previously, to change the selection click - /change_language"
     },
 
     "rules": {

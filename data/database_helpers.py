@@ -19,9 +19,9 @@ def create_user(data: dict):
 
         cursor.execute("""
         INSERT INTO Users (
-            TelegramUserID, UserName, UserInfo, UserNick, Language
+            TelegramUserID, Language
         ) VALUES (
-            :telegramUserID, :userName, :userInfo, :userNick, :language
+            :telegramUserID, :language
         )
         """, data)
 
