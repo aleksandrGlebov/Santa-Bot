@@ -17,11 +17,14 @@ START = range(1)
 
 def start(update: Update, context: CallbackContext) -> int:
     logger.info("start called")
+    chat_id = update.message.chat_id
 
     keyboard = [['🚩Rules', '🎉Rooms'],
                 ['🤵Profile', '👬Pairs']]
     reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True, one_time_keyboard=False)
 
+    photo_file = open('assets\pictures\start_pic.png', 'rb')
+    context.bot.send_photo(chat_id=chat_id, photo=photo_file)
     update.message.reply_text(bot_texts['start_message']['ru'], reply_markup=reply_markup)
     update.message.reply_text(bot_texts['start_message']['en'])
 
@@ -55,6 +58,19 @@ def select_language(update: Update, context: CallbackContext) -> int:
     update.message.reply_text("Для начала выберем язык бота:\nFirst, let's select the bot language:", reply_markup=reply_markup)
 
     return START
+
+def define_language(update: Update, telegramUserID):
+    try:
+        user = db.read_user(telegramUserID)
+        if user is None:
+            update.message.reply_text("Profile does not exist")
+        else:
+            language = user[5]
+
+    except Exception as e:
+        logger.error(f"Error: {e}")
+
+    return language
 
 def button_language(update: Update, context: CallbackContext) -> int:
     logger.info("button_language called")
@@ -98,7 +114,20 @@ def create_anonym_user(user_data, update: Update):
         logger.error(f"Error: {e}")
 
 def rules(update, context):
-    update.message.reply_text(bot_texts['rules']['ru'])
+    logger.info("rules called")
+
+    telegramUserId = update.message.from_user.id
+    chat_id = update.message.chat_id
+
+    photo_file = open(r'assets/pictures/rules_pic.png', 'rb')
+    context.bot.send_photo(chat_id=chat_id, photo=photo_file)
+
+    language = define_language(update, telegramUserId)
+    
+    if language == "русский":
+        update.message.reply_text(bot_texts['rules']['ru'])
+    elif language == "english":
+        update.message.reply_text(bot_texts['rules']['en'])
 
 def open_rooms(update, context):
     update.message.reply_text("open_rooms called")
