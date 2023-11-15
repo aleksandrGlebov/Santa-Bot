@@ -38,7 +38,7 @@ def menu_buttons(update: Update, context: CallbackContext):
     text = update.message.text
 
     if text == "🚩Rules":
-        return rules(update, context)
+        return open_rules(update, context)
     elif text == "🎉Rooms":
         return open_rooms(update, context)
     elif text == "🤵Profile":
@@ -59,20 +59,7 @@ def select_language(update: Update, context: CallbackContext) -> int:
 
     return START
 
-def define_language(update: Update, telegramUserID):
-    try:
-        user = db.read_user(telegramUserID)
-        if user is None:
-            update.message.reply_text("Profile does not exist")
-        else:
-            language = user[5]
-
-    except Exception as e:
-        logger.error(f"Error: {e}")
-
-    return language
-
-def button_language(update: Update, context: CallbackContext) -> int:
+def button_language(update: Update, context: CallbackContext):
     logger.info("button_language called")
 
     query = update.callback_query
@@ -103,8 +90,6 @@ def button_language(update: Update, context: CallbackContext) -> int:
     except Exception as e:
         logger.error(f"Error: {e}")
 
-    return START
-
 def create_anonym_user(user_data, update: Update):
     logger.info("create_anonym_user called")
 
@@ -113,8 +98,21 @@ def create_anonym_user(user_data, update: Update):
     except Exception as e:
         logger.error(f"Error: {e}")
 
-def rules(update, context):
-    logger.info("rules called")
+def define_language(update: Update, telegramUserID):
+    try:
+        user = db.read_user(telegramUserID)
+        if user is None:
+            update.message.reply_text("Profile does not exist")
+        else:
+            language = user[5]
+
+    except Exception as e:
+        logger.error(f"Error: {e}")
+
+    return language
+
+def open_rules(update, context):
+    logger.info("open_rules called")
 
     telegramUserId = update.message.from_user.id
     chat_id = update.message.chat_id
@@ -129,6 +127,27 @@ def rules(update, context):
     elif language == "english":
         update.message.reply_text(bot_texts['rules']['en'])
 
+def change_language(update: Update, context: CallbackContext):
+    logger.info("change_language called")
+
+    telegramUserID = update.message.from_user.id
+    parameter = "Language"
+
+    language = define_language(update, telegramUserID)
+
+    if language == "русский":
+        language = "english"
+        update.message.reply_text(bot_texts['changed_language']['en'])
+    elif language == "english":
+        language = "русский"
+        update.message.reply_text(bot_texts['changed_language']['ru'])
+        
+    try:
+        db.update_user(telegramUserID, parameter, language)
+
+    except Exception as e:
+        logger.error(f"Error: {e}")
+
 def open_rooms(update, context):
     update.message.reply_text("open_rooms called")
 
@@ -139,7 +158,16 @@ def open_pairs(update, context):
     update.message.reply_text("open_pairs called")
 
 def cancel(update: Update, context: CallbackContext):
-    update.message.reply_text('Разговор отменен. Чтобы начать сначала, нажмите /start.')
+    logger.info("cancel called")
+
+    telegramUserId = update.message.from_user.id
+
+    language = define_language(update, telegramUserId)
+    
+    if language == "русский":
+        update.message.reply_text(bot_texts['end_conversation']['ru'])
+    elif language == "english":
+        update.message.reply_text(bot_texts['end_conversation']['en'])
 
     context.user_data.clear()
 

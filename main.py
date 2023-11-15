@@ -14,6 +14,7 @@ from handlers import (
     start,
     menu_buttons,
     button_language,
+    change_language,
     cancel
 )
 
@@ -39,7 +40,8 @@ def main():
         fallbacks = [CommandHandler('cancel', cancel)]
     )
 
-    dp.add_handler(start_handler)
+    dp.add_handler(start_handler),
+    dp.add_handler(CommandHandler('change_language', change_language))
 
     updater.start_polling()
     updater.idle()
