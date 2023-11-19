@@ -27,5 +27,45 @@
     "changed_language": {
         "ru": "Вы поменяли язык на русский!",
         "en": "You changed the language to English!"
+    },
+
+    "empty_text_input": {
+        "ru": "Пожалуйста, введите корректные данные.",
+        "en": "Please enter correct information."
+    },
+
+    "long_text_input": {
+        "ru": "Введенный текст слишком длинный. Пожалуйста, сократите его.",
+        "en": "The entered text is too long. Please shorten it."
+    },
+
+    "short_text_input": {
+        "ru": "Введенный текст слишком короткий.",
+        "en": "The entered text is too short."
+    },
+
+    "incorrect_text_input": {
+        "ru": "Введенный текст должен содержать хотя бы одну букву.",
+        "en": "The entered text must contain at least one letter."
+    },
+
+    "incorrect_numeric_input": {
+        "ru": "Пожалуйста, введите число.",
+        "en": "Please enter a number."
+    },
+
+    "incorrect_range_numeric_input": {
+        "ru": "Пожалуйста, введите число в диапазоне от {min_value} до {max_value}",
+        "en": "Please enter a number between {min_value} and {max_value}"
+    },
+
+    "profile_doesnt_exist": {
+        "ru": "У вас нет профиля, создайте его командой - /create_profile",
+        "en": "You don't have a profile, create one with the command - /create_profile"
+    },
+
+    "anonymous_profile": {
+        "ru": "Ваш профиль не заполнен, чтобы заполнить его используйте команду - /create_profile",
+        "en": "Your profile is not filled in, to fill it out use the command - /create_profile"
     }
 }
