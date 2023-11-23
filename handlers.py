@@ -10,11 +10,12 @@ logger = logging.getLogger(__name__)
 
 # Open assests
 with open("assets/texts/texts.json", "r", encoding="utf-8") as file:
-    bot_texts = json.load(file)
+    texts = json.load(file)
 
 # Const for states
 START = range(1)
 
+# Func for start messages and for keyboad
 def start(update: Update, context: CallbackContext) -> int:
     logger.info("start called")
     chat_id = update.message.chat_id
@@ -23,15 +24,17 @@ def start(update: Update, context: CallbackContext) -> int:
                 ['🤵Profile', '👬Pairs']]
     reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True, one_time_keyboard=False)
 
-    photo_file = open('assets\pictures\start_pic.png', 'rb')
-    context.bot.send_photo(chat_id=chat_id, photo=photo_file)
-    update.message.reply_text(bot_texts['start_message']['ru'], reply_markup=reply_markup)
-    update.message.reply_text(bot_texts['start_message']['en'])
+    with open('assets/pictures/start_pic.png', 'rb') as photo_file:
+        context.bot.send_photo(chat_id=chat_id, photo=photo_file)
+
+    update.message.reply_text(texts['start_message']['русский'], reply_markup=reply_markup)
+    update.message.reply_text(texts['start_message']['english'])
 
     select_language(update, context)
 
     return START
 
+# Func for handling keyboard buttons
 def menu_buttons(update: Update, context: CallbackContext):
     logger.info("menu_buttons")
 
@@ -46,6 +49,7 @@ def menu_buttons(update: Update, context: CallbackContext):
     elif text == "👬Pairs":
         return open_pairs(update, context)
 
+# Func for create inline keyboard
 def select_language(update: Update, context: CallbackContext) -> int:
     logger.info("select_language called")
 
@@ -59,6 +63,19 @@ def select_language(update: Update, context: CallbackContext) -> int:
 
     return START
 
+# Func for localization bot messages
+def localization(text_key, update, language, input_method = 'update'):
+    logger.info("localization called")
+
+    text_message = texts[text_key].get(language, "Text not found")
+
+    if input_method == 'query':
+        query = update.callback_query
+        query.edit_message_text(text_message)
+    else:
+        update.message.reply_text(text_message)
+
+# Func for handling inline keyboard and creating anonym customer with language
 def button_language(update: Update, context: CallbackContext):
     logger.info("button_language called")
 
@@ -74,22 +91,18 @@ def button_language(update: Update, context: CallbackContext):
         
         if user is None:
             create_anonym_user(context.user_data, update)
-            
-            if language == "русский":
-                query.edit_message_text(bot_texts['selected_language']['ru'])
-            elif language == "english":
-                query.edit_message_text(bot_texts['selected_language']['en'])
+
+            localization("selected_language", update, language, 'query')
+
         else:
             language = user[5]
             
-            if language == "русский":
-                query.edit_message_text(bot_texts['existing_language']['ru'])
-            elif language == "english":
-                query.edit_message_text(bot_texts['existing_language']['en'])
+            localization("existing_language", update, language, 'query')
 
     except Exception as e:
         logger.error(f"Error: {e}")
 
+# Func for create customer without info but only for save language
 def create_anonym_user(user_data, update: Update):
     logger.info("create_anonym_user called")
 
@@ -98,7 +111,10 @@ def create_anonym_user(user_data, update: Update):
     except Exception as e:
         logger.error(f"Error: {e}")
 
+# Func for define customer language
 def define_language(update: Update, telegramUserID):
+    logger.info("define_language called")
+
     try:
         user = db.read_user(telegramUserID)
         if user is None:
@@ -111,22 +127,21 @@ def define_language(update: Update, telegramUserID):
 
     return language
 
+# Func for show rules for customer
 def open_rules(update, context):
     logger.info("open_rules called")
 
     telegramUserId = update.message.from_user.id
     chat_id = update.message.chat_id
 
-    photo_file = open(r'assets/pictures/rules_pic.png', 'rb')
-    context.bot.send_photo(chat_id=chat_id, photo=photo_file)
+    with open(r'assets/pictures/rules_pic.png', 'rb') as photo_file:
+        context.bot.send_photo(chat_id=chat_id, photo=photo_file)
 
     language = define_language(update, telegramUserId)
     
-    if language == "русский":
-        update.message.reply_text(bot_texts['rules']['ru'])
-    elif language == "english":
-        update.message.reply_text(bot_texts['rules']['en'])
+    localization('rules', update, language)
 
+# Func for changing the language
 def change_language(update: Update, context: CallbackContext):
     logger.info("change_language called")
 
@@ -137,16 +152,16 @@ def change_language(update: Update, context: CallbackContext):
 
     if language == "русский":
         language = "english"
-        update.message.reply_text(bot_texts['changed_language']['en'])
     elif language == "english":
         language = "русский"
-        update.message.reply_text(bot_texts['changed_language']['ru'])
-        
+
     try:
         db.update_user(telegramUserID, parameter, language)
 
     except Exception as e:
         logger.error(f"Error: {e}")
+
+    localization('changed_language', update, language)
 
 def open_rooms(update, context):
     update.message.reply_text("open_rooms called")
@@ -157,6 +172,7 @@ def open_profile(update, context):
 def open_pairs(update, context):
     update.message.reply_text("open_pairs called")
 
+# Func for stop convers with bot
 def cancel(update: Update, context: CallbackContext):
     logger.info("cancel called")
 
@@ -164,10 +180,7 @@ def cancel(update: Update, context: CallbackContext):
 
     language = define_language(update, telegramUserId)
     
-    if language == "русский":
-        update.message.reply_text(bot_texts['end_conversation']['ru'])
-    elif language == "english":
-        update.message.reply_text(bot_texts['end_conversation']['en'])
+    localization('end_conversation', update, language)
 
     context.user_data.clear()
 

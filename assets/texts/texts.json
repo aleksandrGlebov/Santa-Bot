@@ -1,71 +1,71 @@
 {
     "start_message": {
-        "ru": "Добро пожаловать в игру Тайный Санта! Используйте меню внизу для навигации по функциям бота",
-        "en": "Welcome to the Secret Santa game! Use the menu below to navigate through the bot's features"
+        "русский": "Добро пожаловать в игру Тайный Санта! Используйте меню внизу для навигации по функциям бота",
+        "english": "Welcome to the Secret Santa game! Use the menu below to navigate through the bot's features"
     },
 
     "selected_language": {
-        "ru": "Вы выбрали русский, чтобы изменить выбор нажмите - /change_language",
-        "en": "You have selected English, to change the selection press - /change_language"
+        "русский": "Вы выбрали русский, чтобы изменить выбор нажмите - /change_language",
+        "english": "You have selected English, to change the selection press - /change_language"
     },
 
     "existing_language": {
-        "ru": "Вы уже выбрали русский ранее, чтобы изменить выбор нажмите - /change_language",
-        "en": "You have already selected English previously, to change the selection click - /change_language"
+        "русский": "Вы уже выбрали русский ранее, чтобы изменить выбор нажмите - /change_language",
+        "english": "You have already selected English previously, to change the selection click - /change_language"
     },
 
     "rules": {
-        "ru": "Чтобы получить доступ к игре создайте свой профиль при помощи команды - /create_profile. Вам будет присвоен уникальный ник, который нужен для того, чтобы скрыть ваше имя. Вы не будете знать вашего ника, чтобы случайно его не выдать. Только администратор игры знает, кто кем является.\n\nДля начала игры создайте новую комнату при помощи команды - /create_room. Тот кто создал комнату является администратором игры. После этого попросите друзей присоединиться к комнате при помощи команды - /join_room.\n\nКогда все необходимые участники присоединятся к комнате администратор игры сможет выполнить команду /create_pairs. Если есть человек без пары, то он будет дарить не подарок, а отдавать сумму за подарок. Кто-то у кого есть пара будет покупать подарок не только своей паре, но и человеку без пары, таким образом ему придется потратиться дважды. Но в день когда все будут дарить подарки, человек который купил два вручит их, а человек без пары вместо подарка вернет ему деньги.\n\nПосле создания пар участников администратором игры все участники комнаты получат сообщение от бота, где будет указан ник и описание человека, которое он оставил о себе для подбора подходящего подарка. В день, когда нужно будет дарить подарки администратор игры использует команду - /show_name и назовет все реальные имена для ников и тогда участники поймут кому они подготовили подарки.",
-        "en": "To access the game, create your profile using the command - /create_profile. You will be assigned a unique nickname, which is needed in order to hide your name. You will not know your nickname so as not to accidentally give it away. Only the game administrator knows who is who.\n\nTo start the game, create a new room using the command - /create_room. The one who created the room is the administrator of the game. After that, ask your friends to join the room using the command - /join_room.\n\nWhen all the necessary participants have joined the room, the game administrator can run the /create_pairs command. If there is a person without a partner, then he will not give a gift, but will give the amount for the gift. Someone who has a partner will buy a gift not only for his partner, but also for a person without a partner, so he will have to spend twice. But on the day when everyone gives gifts, the person who bought two will give them, and the person without a partner will return the money to him instead of a gift.\n\nAfter pairs of participants are created by the game administrator, all participants in the room will receive a message from the bot, which will indicate the nickname and description of the person that he left about himself in order to select a suitable gift. On the day when it is necessary to give gifts, the game administrator will use the command - /show_name and name all the real names for the nicknames and then the participants will understand who they have prepared gifts for."
+        "русский": "Чтобы получить доступ к игре создайте свой профиль при помощи команды - /create_profile. Вам будет присвоен уникальный ник, который нужен для того, чтобы скрыть ваше имя. Вы не будете знать вашего ника, чтобы случайно его не выдать. Только администратор игры знает, кто кем является.\n\nДля начала игры создайте новую комнату при помощи команды - /create_room. Тот кто создал комнату является администратором игры. После этого попросите друзей присоединиться к комнате при помощи команды - /join_room.\n\nКогда все необходимые участники присоединятся к комнате администратор игры сможет выполнить команду /create_pairs. Если есть человек без пары, то он будет дарить не подарок, а отдавать сумму за подарок. Кто-то у кого есть пара будет покупать подарок не только своей паре, но и человеку без пары, таким образом ему придется потратиться дважды. Но в день когда все будут дарить подарки, человек который купил два вручит их, а человек без пары вместо подарка вернет ему деньги.\n\nПосле создания пар участников администратором игры все участники комнаты получат сообщение от бота, где будет указан ник и описание человека, которое он оставил о себе для подбора подходящего подарка. В день, когда нужно будет дарить подарки администратор игры использует команду - /show_name и назовет все реальные имена для ников и тогда участники поймут кому они подготовили подарки.",
+        "english": "To access the game, create your profile using the command - /create_profile. You will be assigned a unique nickname, which is needed in order to hide your name. You will not know your nickname so as not to accidentally give it away. Only the game administrator knows who is who.\n\nTo start the game, create a new room using the command - /create_room. The one who created the room is the administrator of the game. After that, ask your friends to join the room using the command - /join_room.\n\nWhen all the necessary participants have joined the room, the game administrator can run the /create_pairs command. If there is a person without a partner, then he will not give a gift, but will give the amount for the gift. Someone who has a partner will buy a gift not only for his partner, but also for a person without a partner, so he will have to spend twice. But on the day when everyone gives gifts, the person who bought two will give them, and the person without a partner will return the money to him instead of a gift.\n\nAfter pairs of participants are created by the game administrator, all participants in the room will receive a message from the bot, which will indicate the nickname and description of the person that he left about himself in order to select a suitable gift. On the day when it is necessary to give gifts, the game administrator will use the command - /show_name and name all the real names for the nicknames and then the participants will understand who they have prepared gifts for."
     },
 
     "end_conversation": {
-        "ru": "Вы остановили бота, чтобы запустить его заново введите - /start",
-        "en": "You stopped the bot, to start it again enter - /start"
+        "русский": "Вы остановили бота, чтобы запустить его заново введите - /start",
+        "english": "You stopped the bot, to start it again enter - /start"
     },
 
     "changed_language": {
-        "ru": "Вы поменяли язык на русский!",
-        "en": "You changed the language to English!"
+        "русский": "Вы поменяли язык на русский!",
+        "english": "You changed the language to English!"
     },
 
     "empty_text_input": {
-        "ru": "Пожалуйста, введите корректные данные.",
-        "en": "Please enter correct information."
+        "русский": "Пожалуйста, введите корректные данные.",
+        "english": "Please enter correct information."
     },
 
     "long_text_input": {
-        "ru": "Введенный текст слишком длинный. Пожалуйста, сократите его.",
-        "en": "The entered text is too long. Please shorten it."
+        "русский": "Введенный текст слишком длинный. Пожалуйста, сократите его.",
+        "english": "The entered text is too long. Please shorten it."
     },
 
     "short_text_input": {
-        "ru": "Введенный текст слишком короткий.",
-        "en": "The entered text is too short."
+        "русский": "Введенный текст слишком короткий.",
+        "english": "The entered text is too short."
     },
 
     "incorrect_text_input": {
-        "ru": "Введенный текст должен содержать хотя бы одну букву.",
-        "en": "The entered text must contain at least one letter."
+        "русский": "Введенный текст должен содержать хотя бы одну букву.",
+        "english": "The entered text must contain at least one letter."
     },
 
     "incorrect_numeric_input": {
-        "ru": "Пожалуйста, введите число.",
-        "en": "Please enter a number."
+        "русский": "Пожалуйста, введите число.",
+        "english": "Please enter a number."
     },
 
     "incorrect_range_numeric_input": {
-        "ru": "Пожалуйста, введите число в диапазоне от {min_value} до {max_value}",
-        "en": "Please enter a number between {min_value} and {max_value}"
+        "русский": "Пожалуйста, введите число в диапазоне от {min_value} до {max_value}",
+        "english": "Please enter a number between {min_value} and {max_value}"
     },
 
     "profile_doesnt_exist": {
-        "ru": "У вас нет профиля, создайте его командой - /create_profile",
-        "en": "You don't have a profile, create one with the command - /create_profile"
+        "русский": "У вас нет профиля, создайте его командой - /create_profile",
+        "english": "You don't have a profile, create one with the command - /create_profile"
     },
 
     "anonymous_profile": {
-        "ru": "Ваш профиль не заполнен, чтобы заполнить его используйте команду - /create_profile",
-        "en": "Your profile is not filled in, to fill it out use the command - /create_profile"
+        "русский": "Ваш профиль не заполнен, чтобы заполнить его используйте команду - /create_profile",
+        "english": "Your profile is not filled in, to fill it out use the command - /create_profile"
     }
 }

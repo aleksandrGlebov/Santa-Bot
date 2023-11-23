@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 # Open assests
 with open("assets/texts/texts.json", "r", encoding="utf-8") as file:
-    bot_texts = json.load(file)
+    texts = json.load(file)
 
 def validate_text_input(state_if_error):
     def decorator_wrapper(func):
@@ -21,31 +21,19 @@ def validate_text_input(state_if_error):
             language = hd.define_language(update, telegramUserId)
 
             if not text_input:
-                if language == "русский":
-                    update.message.reply_text(bot_texts['empty_text_input']['ru'])
-                elif language == "english":
-                    update.message.reply_text(bot_texts['empty_text_input']['en'])
+                hd.localization('empty_text_input', update, language)
                 return state_if_error
             
-            if  len(text_input) > 256:
-                if language == "русский":
-                    update.message.reply_text(bot_texts['long_text_input']['ru'])
-                elif language == "english":
-                    update.message.reply_text(bot_texts['long_text_input']['en'])
+            if  len(text_input) > 512:
+                hd.localization('long_text_input', update, language)
                 return state_if_error
             
-            if  len(text_input) < 3:
-                if language == "русский":
-                    update.message.reply_text(bot_texts['short_text_input']['ru'])
-                elif language == "english":
-                    update.message.reply_text(bot_texts['short_text_input']['en'])
+            if  len(text_input) < 8:
+                hd.localization('short_text_input', update, language)
                 return state_if_error
 
             if not any(char.isalpha() for char in text_input):
-                if language == "русский":
-                    update.message.reply_text(bot_texts['incorrect_text_input']['ru'])
-                elif language == "english":
-                    update.message.reply_text(bot_texts['incorrect_text_input']['en'])
+                hd.localization('incorrect_text_input', update, language)
                 return state_if_error
 
             return func(update, context)
@@ -62,19 +50,16 @@ def validate_numeric_input(min_value, max_value, state_if_error, float_allowed=T
             language = hd.define_language(update, telegramUserId)
 
             if not value.replace('.', '', 1).isdigit() or (float_allowed and '.' in value and value.count('.') > 1):
-                if language == "русский":
-                    update.message.reply_text(bot_texts['incorrect_numeric_input']['ru'])
-                elif language == "english":
-                    update.message.reply_text(bot_texts['incorrect_numeric_input']['en'])
+                hd.localization('incorrect_numeric_input', update, language)
                 return state_if_error
             
             numeric_value = float(value) if float_allowed and '.' in value else int(value)
 
             if not (min_value <= numeric_value <= max_value):
                 if language == "русский":
-                    message_template = bot_texts['incorrect_range_numeric_input']['ru']
+                    message_template = texts['incorrect_range_numeric_input']['русский']
                 elif language == "english":
-                    message_template = bot_texts['incorrect_range_numeric_input']['en']
+                    message_template = texts['incorrect_range_numeric_input']['english']
 
                 formatted_message = message_template.format(min_value=min_value, max_value=max_value)
                 update.message.reply_text(formatted_message)
@@ -97,17 +82,14 @@ def checking_profile_existence(state_if_error):
 
                 if user is None:
                     context.user_data['isProfileExist'] = 'No'
-                    update.message.reply_text(bot_texts['profile_doesnt_exist']['en'])
+                    update.message.reply_text(texts['profile_doesnt_exist']['english'])
                     return state_if_error
                 
                 else:
                     userName = user[2]
 
                     if userName is None:
-                        if language == "русский":
-                            update.message.reply_text(bot_texts['anonymous_profile']['ru'])
-                        elif language == "english":
-                            update.message.reply_text(bot_texts['anonymous_profile']['en'])
+                        hd.localization('anonymous_profile', update, language)
                         return state_if_error
                     
                     else:
