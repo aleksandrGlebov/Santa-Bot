@@ -69,11 +69,15 @@ def localization(text_key, update, language, input_method = 'update'):
 
     text_message = texts[text_key].get(language, "Text not found")
 
-    if input_method == 'query':
-        query = update.callback_query
-        query.edit_message_text(text_message)
+    if language == 'indefined':
+        update.message.reply_text("Please select a language!")
+    
     else:
-        update.message.reply_text(text_message)
+        if input_method == 'query':
+            query = update.callback_query
+            query.edit_message_text(text_message)
+        else:
+            update.message.reply_text(text_message)
 
 # Func for handling inline keyboard and creating anonym customer with language
 def button_language(update: Update, context: CallbackContext):
@@ -115,11 +119,11 @@ def create_anonym_user(user_data, update: Update):
 def define_language(update: Update, telegramUserID):
     logger.info("define_language called")
 
+    language = 'indefined'
+
     try:
         user = db.read_user(telegramUserID)
-        if user is None:
-            update.message.reply_text("Profile does not exist")
-        else:
+        if user is not None:
             language = user[5]
 
     except Exception as e:
