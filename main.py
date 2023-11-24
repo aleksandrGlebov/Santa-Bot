@@ -32,15 +32,13 @@ def main():
     start_handler = ConversationHandler(
         entry_points = [CommandHandler('start', start)],
         states = {
-            START: [
-                MessageHandler(Filters.text & ~Filters.command, menu_buttons),
-                CallbackQueryHandler(button_language, pattern='^(русский|english)$')
-                ]
+            START: [CallbackQueryHandler(button_language, pattern='^(русский|english)$')]
         },
         fallbacks = [CommandHandler('cancel', cancel)]
     )
 
-    dp.add_handler(start_handler),
+    dp.add_handler(MessageHandler(Filters.text & ~Filters.command, menu_buttons))
+    dp.add_handler(start_handler)
     dp.add_handler(CommandHandler('change_language', change_language))
 
     updater.start_polling()
