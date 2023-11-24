@@ -39,6 +39,7 @@ def create_database():
         RoomID INTEGER PRIMARY KEY AUTOINCREMENT,
         RoomName TEXT,
         AdminUserID INTEGER,
+        Cost INTEGER,
         FOREIGN KEY (AdminUserID) REFERENCES Users(UserID)
     )    
     ''')
